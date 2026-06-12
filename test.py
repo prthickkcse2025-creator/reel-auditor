@@ -18,7 +18,22 @@ if not api_key:
 
 client = genai.Client(api_key=api_key)
 
-# Define the retry logic for the API call
+# Dynamic model selection function
+def get_best_model():
+    """Dynamically finds a supported 3.x Flash model."""
+    try:
+        models = client.models.list()
+        # Look for the newest 3.5 flash, fallback to 3.1
+        for m in models:
+            if "gemini-3.5-flash" in m.name:
+                return m.name
+            if "gemini-3.1-flash" in m.name:
+                return m.name
+        return "gemini-3.5-flash" # Default fallback
+    except:
+        return "gemini-3.5-flash"
+
+# Define the retry logic
 @retry(
     stop=stop_after_attempt(3), 
     wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -26,9 +41,9 @@ client = genai.Client(api_key=api_key)
     reraise=True
 )
 def generate_report_with_retry(video_file, prompt):
-    # Using gemini-2.0-flash as it is the most stable and fast model
+    model_name = get_best_model()
     return client.models.generate_content(
-        model="gemini-3.5-flash", 
+        model=model_name, 
         contents=[video_file, prompt]
     )
 
@@ -54,10 +69,10 @@ if uploaded_file:
                 if video_file.state.name == "FAILED":
                     raise Exception("Video processing failed on the server.")
 
-                st.write("Generating report (Retrying if server is busy)...")
-                prompt = '''[INSERT YOUR ELITE PROMPT HERE]'''
+                st.write("Generating report...")
+                # Note: Insert your full prompt here
+                prompt = "Perform a detailed professional audit of the uploaded video..."
                 
-                # Call the retry-protected function
                 response = generate_report_with_retry(video_file, prompt)
                 
                 status.update(label="Analysis Complete!", state="complete")
@@ -65,17 +80,17 @@ if uploaded_file:
             st.markdown(response.text)
             
         except Exception as e:
-            # Check for 503 error specifically for a friendlier message
-            if "503" in str(e) or "UNAVAILABLE" in str(e):
+            error_str = str(e)
+            if "503" in error_str or "UNAVAILABLE" in error_str:
                 st.error("The AI server is currently at peak capacity. Please try again in a few moments.")
+            elif "404" in error_str:
+                st.error("The requested model is unavailable. Please check your API access.")
             else:
-                st.error(f"Analysis Error: {e}")
+                st.error(f"Analysis Error: {error_str}")
             
         finally:
             if video_file:
-                try:
-                    client.files.delete(name=video_file.name)
-                except:
-                    pass
+                try: client.files.delete(name=video_file.name)
+                except: pass
             if os.path.exists(temp_path):
                 os.remove(temp_path)
