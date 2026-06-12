@@ -28,7 +28,7 @@ client = genai.Client(api_key=api_key)
 def generate_report_with_retry(video_file, prompt):
     # Using gemini-2.0-flash as it is the most stable and fast model
     return client.models.generate_content(
-        model="gemini-2.0-flash", 
+        model="gemini-3.5-flash", 
         contents=[video_file, prompt]
     )
 
