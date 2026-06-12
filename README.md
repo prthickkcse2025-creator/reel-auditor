@@ -1,5 +1,6 @@
 ⚡ Speedy AI Auditor
-Speedy AI Auditor is a professional-grade AI video analysis tool designed for content creators, social media strategists, and public speakers. It leverages Google’s Gemini 2.5 Flash model to provide an instant, data-driven critique of your video content, focusing on engagement, technical quality, and algorithm performance.
+
+Speedy AI Auditor is a professional-grade AI video analysis tool designed for content creators, social media strategists, and public speakers. It leverages Google’s Gemini 3.5 Flash model to provide an instant, data-driven critique of your video content, focusing on engagement, technical quality, and algorithm performance.
 
 🚀 Features
 Comprehensive Audit: Get a detailed breakdown of your video across 12 critical categories, including Hook Strength, Storytelling, and Body Language.
@@ -19,7 +20,7 @@ ffmpeg (Required for efficient video processing/trimming)
 
 A Google AI Studio API Key
 
-Installation
+⚙️ Installation
 Clone the repository:
 
 Bash
@@ -47,7 +48,7 @@ streamlit run app.py
 Open your browser to the URL provided in the terminal (usually http://localhost:8501), upload your .mp4 file, and click "Start Fast Analysis."
 
 💡 How it works
-The tool processes your uploaded video through the Gemini API. By utilizing the gemini-2.5-flash model, it performs deep content analysis while maintaining high performance.
+The tool processes your uploaded video through the Gemini API. By utilizing the gemini-3.5-flash model, it performs deep content analysis while maintaining high performance.
 
 Note: For the fastest results, consider trimming your videos to the specific segment you want audited.
 
@@ -55,4 +56,4 @@ Note: For the fastest results, consider trimming your videos to the specific seg
 Contributions are welcome! If you have suggestions for new features, improved prompts, or bug fixes, feel free to open an issue or submit a pull request.
 
 📄 License
-This project is licensed under the MIT License
+This project is licensed under the MIT License.
