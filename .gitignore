@@ -1,0 +1,14 @@
+# Python environment and cache
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Streamlit/Temp files
+temp_*.mp4
+temp_*.mov
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
