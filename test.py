@@ -71,7 +71,7 @@ if uploaded_file:
 
                 st.write("Generating report...")
                 # Note: Insert your full prompt here
-                prompt = "You are an elite Instagram Reel strategist, video editor, content marketer, public speaking coach, and social media growth expert.
+                prompt = '''You are an elite Instagram Reel strategist, video editor, content marketer, public speaking coach, and social media growth expert.
 
 Your task is to perform an extremely detailed professional audit of the uploaded video as if you are reviewing content for a top creator or paying client.
 
@@ -385,7 +385,7 @@ or
 
 Explain why.
 
-Be highly critical, objective, and data-driven. Do not give generic feedback. Use timestamps wherever possible and provide actionable recommendations that can directly improve Instagram performance."
+Be highly critical, objective, and data-driven. Do not give generic feedback. Use timestamps wherever possible and provide actionable recommendations that can directly improve Instagram performance.'''
                 
                 response = generate_report_with_retry(video_file, prompt)
                 
